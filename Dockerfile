@@ -1,5 +1,5 @@
 # ---- 构建阶段：编译 TypeScript ----
-FROM docker.m.daocloud.io/library/node:22-slim AS build
+FROM node:22-slim AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -10,14 +10,14 @@ COPY src ./src
 RUN npm run build
 
 # ---- 生产依赖：只保留运行时需要的包（devDependencies 不进最终镜像）----
-FROM docker.m.daocloud.io/library/node:22-slim AS prod-deps
+FROM node:22-slim AS prod-deps
 WORKDIR /app
 ENV NODE_ENV=production
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 # ---- 运行阶段 ----
-FROM docker.m.daocloud.io/library/node:22-slim AS runtime
+FROM node:22-slim AS runtime
 WORKDIR /app
 
 # 以下默认值都可以用 docker run -e 或 compose 的 environment 覆盖
