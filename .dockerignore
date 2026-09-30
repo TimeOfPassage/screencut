@@ -1,0 +1,13 @@
+# 只把构建真正需要的东西送进上下文，node_modules/dist 由镜像内自己生成
+node_modules
+dist
+coverage
+*.log
+.env
+.env.local
+.git
+.gitignore
+test
+Dockerfile
+.dockerignore
+compose.yaml
